@@ -21,6 +21,11 @@ namespace Managements.Handlers.Engagement
             //    TimeInterval = new TimeSpan(0, minutes, seconds),
             //    Repeats = data.RepeatInterval.HasValue
             //};
+            string category = data.ChannelId;
+            if (string.IsNullOrEmpty(category))
+            {
+                category = DEFAULT_CATEGORY;
+            }
             iOSNotificationCalendarTrigger calendarTrigger = new iOSNotificationCalendarTrigger()
             {
                 Repeats = data.RepeatInterval.HasValue,
@@ -37,7 +42,7 @@ namespace Managements.Handlers.Engagement
                 Subtitle = string.Empty,
                 ShowInForeground = true,
                 ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
-                CategoryIdentifier = DEFAULT_CATEGORY,
+                CategoryIdentifier = category,
                 ThreadIdentifier = "thread1",
                 Trigger = calendarTrigger,
             };
@@ -47,7 +52,33 @@ namespace Managements.Handlers.Engagement
 
         public void AddNotification(string id, NotificationData data)
         {
-            throw new System.NotImplementedException();
+            string category = data.ChannelId;
+            if (string.IsNullOrEmpty(category))
+            {
+                category = DEFAULT_CATEGORY;
+            }
+            iOSNotificationCalendarTrigger calendarTrigger = new iOSNotificationCalendarTrigger()
+            {
+                Repeats = data.RepeatInterval.HasValue,
+                Year = data.ShowTime.Year,
+                Month = data.ShowTime.Month,
+                Day = data.ShowTime.Day,
+                Hour = data.ShowTime.Hour,
+                Minute = data.ShowTime.Minute
+            };
+            var notification = new iOSNotification()
+            {
+                Identifier= id,
+                Title = data.Title,
+                Body = data.Context,
+                Subtitle = string.Empty,
+                ShowInForeground = true,
+                ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Sound),
+                CategoryIdentifier = category,
+                ThreadIdentifier = "thread1",
+                Trigger = calendarTrigger,
+            };
+            iOSNotificationCenter.ScheduleNotification(notification);
         }
 
         public void RemoveAllNotification()
@@ -83,7 +114,7 @@ namespace Managements.Handlers.Engagement
 
         public void UpdateNotification(string id, NotificationData data)
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

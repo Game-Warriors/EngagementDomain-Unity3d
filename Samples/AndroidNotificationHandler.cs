@@ -6,6 +6,7 @@ namespace Managements.Handlers.Engagement
     using System.Threading.Tasks;
 #if UNITY_ANDROID
     using Unity.Notifications.Android;
+
     public class AndroidNotificationHandler : INotificationHandler
     {
         private const string DEFAULT_CHANNEL_ID = "default_channel";
@@ -31,13 +32,30 @@ namespace Managements.Handlers.Engagement
                 FireTime = data.ShowTime,
                 RepeatInterval = data.RepeatInterval
             };
-            var id = AndroidNotificationCenter.SendNotification(notification, DEFAULT_CHANNEL_ID);
+
+            string channelId = data.ChannelId;
+            if (string.IsNullOrEmpty(channelId))
+                channelId = DEFAULT_CHANNEL_ID;
+
+            int id = AndroidNotificationCenter.SendNotification(notification, channelId);
             return System.Convert.ToString(id);
         }
 
-        public void AddNotification(string id, NotificationData data)
+        public void AddNotification(string notificationId, NotificationData data)
         {
-            throw new System.NotImplementedException();
+            var notification = new AndroidNotification
+            {
+                Title = data.Title,
+                Text = data.Context,
+                FireTime = data.ShowTime,
+                RepeatInterval = data.RepeatInterval
+            };
+
+            string channelId = data.ChannelId;
+            if (string.IsNullOrEmpty(channelId))
+                channelId = DEFAULT_CHANNEL_ID;
+            if (int.TryParse(notificationId, out var id))
+                AndroidNotificationCenter.SendNotificationWithExplicitID(notification, channelId, id);
         }
 
         public void RemoveAllNotification()
@@ -56,9 +74,21 @@ namespace Managements.Handlers.Engagement
             return Task.CompletedTask;
         }
 
-        public void UpdateNotification(string id, NotificationData data)
+        public void UpdateNotification(string notificationId, NotificationData data)
         {
-            throw new System.NotImplementedException();
+            var notification = new AndroidNotification
+            {
+                Title = data.Title,
+                Text = data.Context,
+                FireTime = data.ShowTime,
+                RepeatInterval = data.RepeatInterval
+            };
+
+            string channelId = data.ChannelId;
+            if (string.IsNullOrEmpty(channelId))
+                channelId = DEFAULT_CHANNEL_ID;
+            if (int.TryParse(notificationId, out var id))
+                AndroidNotificationCenter.UpdateScheduledNotification(id, notification, channelId);
         }
     }
 #endif

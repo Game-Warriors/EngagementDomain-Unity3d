@@ -1,6 +1,6 @@
 {
   "name": "com.gamewarriors.engagementsystem",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "displayName": "Engagement System",
   "description": "This package provide base structure for engagement tools like local notifications or share contents",
   "unity": "2020.3",
