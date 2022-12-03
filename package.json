@@ -1,0 +1,19 @@
+{
+  "name": "com.gamewarriors.engagementsystem",
+  "version": "0.0.1",
+  "displayName": "Engagement System",
+  "description": "This package provide base structure for engagement tools like local notifications or share contents",
+  "unity": "2020.3",
+  "unityRelease": "0b5",
+  "dependencies": {
+  },
+  "keywords": [
+    "notification",
+    "share"
+  ],
+  "author": {
+    "name": "Game Warriors",
+    "email": "mahdifada.eddini@outlook.com",
+    "url": "https://www.gamewarriorsstudio.com"
+  }
+}
